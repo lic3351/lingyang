@@ -1,0 +1,27 @@
+<% for( let item of list) {%>
+			<div class="article_list">
+				<% if(item.images!=null) { %>
+				<img src="/images/logo2.jpg" alt="">
+				<% } %>
+				<span id='title'>
+				
+				【<%=item.type%>】<a name="title" href='/article/single/<%=item._id%>'>
+				<%=item.title%></a></span>
+				<p name='body'><%=item.body.substring(0,40)%></p>
+				
+			<div class="meta">
+			<%=item.date.toLocaleString().substring(5,15)%>	
+				<span type="button" class="btn btn-xs">
+				  <span class="glyphicon glyphicon-eye-open"></span> <%=item.viewcount%>
+				</span>
+				
+				<span type="button" class="btn btn-xs">
+				  <span class="glyphicon glyphicon-comment"></span> <%=item.comments.length%>
+				</span>
+				</div>
+			</div>
+
+	<% } %>
+	<style>
+		
+	</style>

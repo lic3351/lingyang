@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>宣城宠物领养</title>
+      
+      <%include js_css.ejs%>
+     
+  </head>
+  <body>
+
+    <%include header.ejs%>
+  <div class="container-fluid header_doc">
+    <div class="container">
+      <h4>领养代替购买</h4>
+      <p>
+      <a  class="btn btn-default btn-sm btn-xs" href="/article/forum">
+        <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: #FF0033"></span> 领养
+      </a>
+      <a  class="btn btn-default btn-sm btn-xs" href="/publish" style="">
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" style="color: #99CC00"></span> 发布信息
+      </a>
+      
+      </p>
+
+
+    </div>
+    </div>
+
+
+    <div class="container content">
+
+
+
+
+    <div class="row">
+      <div class="col-md-9">
+      最近领养信息<br>
+          <div class="row">
+                     
+<div class="col-md-3 col-xs-6 margin0">
+              <div class="zhanshi">
+                <img src="/images/cat.jpg" alt="...">               
+                  <p>宠物被领养寥少宠物被领被领养少领</p>
+                  <div class="meta"> 
+                    <span type="button" class="btn btn-xs">
+                      <span class="glyphicon glyphicon-eye-open"></span> 112
+                    </span>
+                    </div>
+                
+              </div>
+            </div>
+
+<div class="col-md-3 col-xs-6 margin0">
+              <div class="zhanshi">
+                <img src="/images/cat.jpg" alt="...">
+                                
+                  <p>宠物被领养寥少宠物被领被领养少领</p>
+                  <div class="meta"> 
+                    <span type="button" class="btn btn-xs">
+                      <span class="glyphicon glyphicon-eye-open"></span> 112
+                    </span>
+                    </div>
+              
+              </div>
+            </div>
+        </div> <!-- div row -->
+<!-- 爬虫信息 -->
+<hr>
+<div class="row">
+爬虫信息
+
+<table class="table table-striped">
+  <tr>
+    <td>img</td>
+    <td>title</td>
+    <td>mata</td>
+  </tr>
+   <tr>
+    <td>img</td>
+    <td>title</td>
+    <td>mata</td>
+  </tr> 
+  <tr>
+    <td>img</td>
+    <td>title</td>
+    <td>mata</td>
+  </tr> 
+  <tr>
+    <td>img</td>
+    <td>title</td>
+    <td>mata</td>
+  </tr>
+</table>
+
+
+</div>
+<!-- 爬虫信息end -->
+
+      </div>
+      <div class="col-md-3 ">
+        <%include rightside.ejs%>
+      </div>
+    </div>
+    </div>
+
+    <script>
+      $(function(){
+        var c=$("#tianqi");
+        $.ajax({
+          url: '/services',
+          type: 'GET',
+          dataType:false,
+          data: {city: '宣城'},    
+          success: function(data, textStatus, xhr) {
+            // var msg;
+            // if(data.status==200){
+            //   msg=data;
+            //   c.html(JSON.stringify(msg)).show();
+            // }
+
+            c.append("宣城(数据来源：中央气象台)"+data);
+
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            
+          }
+        });
+        
+      });
+
+    </script>
+    <style type="text/css">
+     
+      .zhanshi{
+        position: relative;
+        width: 100%;
+       display: block;
+  padding: 4px 4px 0px 4px;
+  margin: 0;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.zhanshi > img,
+.zhanshi a > img {
+  margin-right: auto;
+  margin-left: auto;
+   width: 100%;
+   height: 100%;
+}
+.zhanshi .meta{
+  position: absolute;
+  top:2px;
+  right: 0px;
+  background: #FFF;
+  opacity: 0.7;
+}
+.zhanshi p{
+  font-size:0.9em;
+  
+
+}
+.margin0{
+  margin:0;
+  padding: 0 2px;
+  /*border: 1px solid red;*/
+}
+    </style>
+    <%include footer.ejs%>
+  </body>
+</html>

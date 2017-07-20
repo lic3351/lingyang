@@ -1,0 +1,115 @@
+
+<% if(session.message && session.message.update){ %>
+<%=session.message.update%>
+<% }%>
+	<form id="uform"  action="/u/update" method="post" class="col-md-8 col-md-offset-2">
+		<h4>用户资料</h4>
+		<label>用户名</label>
+		<input type="text" name="name1" value='<%=user.name%>' >
+
+		<label>昵称</label>
+		<input type="text" name="uname" value='<%=user.uname%>'>
+
+		<label>联系方式</label>
+		<input type="text" name="lianxi" value='<%=user.lianxi%>'>
+
+		<div class="form-group">
+		<label>密码</label>
+		<input type="password" name="passwd" class="form-control">
+		</div>
+
+		<div id="pd" class="eg" style="display: none">
+
+		
+		<div class="form-group">
+		<label>新密码</label>
+		<input type="password" id="newpasswd" name="newpasswd" class="form-control">
+		</div>
+		<div class="form-group">
+		<label>确认密码</label>
+		<input type="password" name="repasswd" class="form-control">
+		</div>
+		</div>
+		
+
+		
+
+		<div class="eg">
+			<input type="checkbox" id="repasswd" name="ispasswd"> 修改密码<br>
+		</div>
+		<span id="btn-edit" class="btn btn-primary">编辑</span>
+		<span id="save" class="btn btn-default">保存提交</span>
+	</form>
+	<script type="text/javascript">
+			$(function(){
+			var $f=$("#uform")[0];
+            $($f).find("input").not("button,[type=submit],[type=reset]")
+            .attr("disabled",true);
+            $("#btn-edit").click(function(){
+            	
+            	 $($f).find("input[disabled]").not("[name=name]")
+           		 .attr("disabled",false);
+            		valid();
+            	
+            });
+
+            $("#repasswd").change(function(event) {
+            	$("#pd").slideToggle('400');
+            	
+            });
+
+            $("#save").click(function(event) {
+            	//alert($("#uform").serialize());
+            	$("#uform").submit();
+            });
+
+
+			});
+
+
+	$(function(){
+
+
+
+	})	
+     var  valid=function(){	
+	$("#uform").validate({
+    rules: {
+      passwd: {
+        required: true,
+        rangelength:[3,20]
+      },	
+      newpasswd: {
+        required: true,
+        rangelength:[5,20]
+      },
+      repasswd: {
+        required: true,
+        rangelength: [5,20],
+        equalTo: "#newpasswd"
+      }
+      },   
+    messages: {
+      passwd: {
+        required: "请输入密码"
+      },
+      newpasswd: {
+        required: "请输入密码"
+      },
+      repasswd: {
+        required: "请输入密码",
+        equalTo: "两次密码输入不一致"
+      }    
+},
+        submitHandler:function(form){
+            form.submit();
+        },
+        errorPlacement: function(error, element) {  
+        error.insertAfter(element.parent());  
+        } 
+		});
+	};       
+
+
+          
+	</script>

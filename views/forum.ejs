@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>交流平台</title>
+	<%include js_css.ejs%>
+</head>
+<body>
+	<%include header.ejs%>
+ 	<div class="container-fluid header_doc">
+    <div class="container">
+      <h4>相互帮助</h4>
+      
+
+    </div>
+    </div>
+
+
+	<div class="container content">
+		
+
+		
+		<div class="row">
+		<div class="col-md-9">
+	<!-- start 搜索菜单			 -->
+
+	
+
+		<div class="mynav1">
+			<ul>
+				<li><a href="#">时间排序</a></li>
+				<li><a href="#">热度排序</a></li>
+			</ul>
+			<select name="searchtype">
+				<option value="全部">全部</option>
+				   <option value="猫">猫星人</option>
+				<option value="狗">汪星人</option>
+				<option value="其他">其他星球</option>
+			</select>
+		</div>
+
+	<!-- end 搜索菜单 	 -->
+
+	<%include mv-alist.ejs%>
+
+	<div class="col-xs-12 btn btn-block btn-info" id="getmore"
+	data-page=<%=limit%> >更多</div>
+
+</div>
+
+
+<div class="col-md-3">
+			
+		</div>
+		
+
+
+	</div>
+	</div>
+	<%include footer.ejs%>
+
+	<script type="text/javascript">
+	var skip;
+	var limit;
+	$(function(){
+		skip=$('#getmore').data('page');
+		limit=skip;	
+	});
+		$('#getmore').click(function(){
+			var data={
+				skip:skip,
+				limit:limit
+			};
+			$.ajax({
+				url:'/article/more',
+				type:'post',
+				dataType: 'html',
+				data:data,
+				success:function(data){
+					if(data.length==0){
+						$('#getmore').fadeOut('slow');
+						}else{
+					$(data).insertBefore($('#getmore'));
+					skip+=limit;
+				}
+				},
+				error:function(error){
+					
+				}
+			})
+			
+			
+		})
+	</script>
+</body>
+</html>

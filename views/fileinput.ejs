@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>fileinput</title>
+    <link href="/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="/javascripts/jquery.min.js"></script>
+    <!-- piexif.min.js is only needed if you wish to resize images before upload to restore exif data.
+     This must be loaded before fileinput.min.js -->
+    <script src="/fileinput/js/plugins/piexif.min.js" type="text/javascript"></script>
+    <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
+     This must be loaded before fileinput.min.js -->
+    <script src="/fileinput/js/plugins/sortable.min.js" type="text/javascript"></script>
+    <!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
+     This must be loaded before fileinput.min.js -->
+    <script src="/fileinput/js/plugins/purify.min.js" type="text/javascript"></script>
+    <!-- the main fileinput plugin file -->
+    <script src="/fileinput/js/fileinput.min.js"></script>
+    <!-- bootstrap.js below is needed if you wish to zoom and view file content 
+     in a larger detailed modal dialog -->
+    <script src="/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <!-- optionally if you need a theme like font awesome theme you can include 
+    it as mentioned below -->
+    <script src="/fileinput/themes/fa/theme.js"></script>
+    <!-- optionally if you need translation for your language then include 
+    locale file as mentioned below -->
+    <script src="/fileinput/js/locales/zh.js"></script>
+</head>
+
+<body>
+    <form action="/s/upload" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label class="control-label">Planets and Satellites</label>
+            <input id="input-25" name="files" type="file" multiple class="file-loading">
+        </div>
+        <label>name</label>
+        <input type="text" name="name">
+        <input type="submit" value="发布">
+</body>
+<script>
+$(document).on('ready', function() {
+    var path = [];
+    $("#input-25").fileinput({
+        showUpload:false,
+        overwriteInitial: false,
+        // uploadUrl: "/u", //上传到后台处理的方法  
+        uploadAsync: false, //设置同步，异步 （同步）  
+        language: 'zh', //设置语言  
+        maxFileCount: 4, //设置最大上传数量,
+        allowedFileTypes: ['image'],
+        maxFileSize: 1500
+    });
+
+
+
+
+
+
+});
+</script>
+
+</html>

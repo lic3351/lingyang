@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>宣城宠物领养</title>
+      
+    <%include js_css.ejs%>
+    
+  </head>
+  <body>
+
+    <% include header.ejs%>
+  <div class="container-fluid header_doc">
+    <div class="container">
+      <h4>u main</h4>
+      <p></p>
+    </div>
+    </div>
+
+    <div class="container content">
+
+  
+    <div class="row">
+
+    <div class="col-md-12 ">
+       
+       <ul class="nav nav-tabs">
+         <li role="presentation" class="active"><a href="/article/manager">帖子管理</a></li>
+         <li role="presentation" class=""><a href="/m/u">个人信息</a></li>  
+       </ul>
+       
+
+
+    </div>
+    <div class="col-md-12 mainpage">
+      
+
+    </div>
+      
+    
+
+  
+    </div> <!--  row -->
+    </div> <!-- content -->
+
+    <script>
+    $(function(){
+      var url=$('.nav-tabs li.active a')[0].href;
+      $(".mainpage").load(url);
+    })
+
+      $(".nav-tabs a").click(function(e) {
+        e.preventDefault();
+         $('.nav-tabs li.active').removeClass("active");
+         $(this).parent().addClass('active');
+       $.ajax({
+         url:this.href,
+         type: 'get',
+         dataType:'html',
+         success:function(data){
+            $(".mainpage").html(data);
+         },
+         error:function(res,status,error){
+            $(".mainpage").html(status+': '+error)
+         }
+       }).done(function(){     
+          if(this.url.search(/\/m\/u/)>0){
+            var $f=$("#uform")[0];
+            formrender($f);
+          }
+       });
+      
+       
+       
+        
+        
+      });
+    </script>
+    <style type="text/css">
+   
+    </style>
+    <%include footer.ejs%>
+  </body>
+</html>

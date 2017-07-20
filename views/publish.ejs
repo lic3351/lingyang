@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>发帖</title>
+    <%include js_css.ejs%>
+        <%include forfileinput.ejs %>
+            <script src="/javascripts/jquery.validate.min.js"></script>
+            <script src="/javascripts/messages_zh.js"></script>
+</head>
+
+<body>
+    <%include header.ejs%>
+        <div class="container-fluid header_doc">
+            <div class="container">
+                <h2>信息发布</h2>
+                <p>...</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-8 col-md-offset-2  col-xs-12">
+                    <!-- 表单 -->
+                    <form action="/article/publish" method="post" id="f11" enctype="multipart/form-data">
+                        <div class=" form-group">
+                            <label for="type">类别</label>
+                            <select class="form-control" name="type">
+                                <option value="猫">猫星人</option>
+                                <option value="狗">汪星人</option>
+                                <option value="其他">其他星球</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>标题</label>
+                            <input type="text" class="form-control" name="title" />
+                        </div>
+                        <div class="form-group">
+                            <label>内容</label>
+                            <textarea id="" rows="4" class="form-control" name="body"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">上传图片</label>
+                            <input id="input-25" name="files" type="file" multiple class=" file-loading"  data-show-upload="false">
+                            
+                        </div>
+                        <div class="form-group">
+                            <input id="mysubmit" type="submit" value="发布" class="btn btn-ms btn-primary btn-block"></input>
+                            <a class="btn btn-ms btn-default btn-block" href="../">返回首页</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--div row -->
+        <style type="text/css">
+        .form-center {
+
+            margin: 0 center;
+            background: #FFF;
+        }
+
+        body {
+            background: #F8F8F8;
+        }
+        </style>
+        <script type="text/javascript">
+
+        
+        $(document).on('ready', function() {
+            var path = [];
+            $("#input-25").fileinput({
+                showUpload: false,
+                overwriteInitial: false,
+               // uploadUrl: "/s/upload", //上传到后台处理的方法  
+                uploadAsync: false, //设置同步，异步 （同步）  
+                language: 'zh', //设置语言  
+                maxFileCount: 4, //设置最大上传数量,
+                allowedFileTypes: ['image'],
+                maxFileSize: 1500
+
+            });
+            //验证
+            $("#f11").validate({
+                rules: {
+                    title: {
+                        required: true,
+                        rangelength: [5, 30]
+                    },
+                    body: {
+                        required: true,
+                        rangelength: [10, 600]
+                    }
+                },
+                messages: {
+                    title: {
+                        required: "请输入标题"
+                    },
+                    body: {
+                        required: "请输入内容"
+                    }
+                },
+                submitHandler: function(form) {  
+                	            	
+                     form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+
+            $('#input-25').data('files', "[]");
+
+            $('#input-25').on('fileuploaded', function(event, data) {
+                // and check what's in both params
+                var array = JSON.parse($('#input-25').data('files'));
+                array.concat(data.response.data);
+                $('#input-25').data('files', JSON.stringify(array));
+               $('#filelist').val($('#input-25').data('files')); 
+                
+            });
+
+            $('#input-25').on('filebatchuploadsuccess', function(event, data) {
+                // and check what's in both params
+                var array = JSON.parse($('#input-25').data('files'));
+                array.concat(data.response.data);
+                $('#input-25').data('files', JSON.stringify(array));
+                $('#filelist').val($('#input-25').data('files')); 
+                
+            });
+           
+
+        });
+        </script>
+        <%include footer.ejs%>
+</body>
+
+</html>

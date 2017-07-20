@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册</title>
+	<%include js_css.ejs%>
+</head>
+<body>
+<% include header.ejs %>
+
+<div class="container-fluid header_doc">
+	    <div class="container">
+	      <h2>注册</h2>
+	      <p>...</p>
+	    </div>
+    </div>
+
+	<div class="container">
+	<div class="row reg">
+	<form id="reg-form" class="form col-md-4 col-md-offset-4" role="form" action="/u/reg" method="post" autocomplete="off">
+
+	<div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">
+      <span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+      <input type="text" class="form-control" id="" name="name" placeholder="用户名">
+    </div>
+  </div>
+		<div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">
+      <span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
+      <input type="password" class="form-control" id="passwd" name="passwd"  placeholder="密码">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">
+      <span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
+      <input type="password" class="form-control" id="" name="passwd2" placeholder="确认密码">
+    </div>
+  </div>
+
+<div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">
+      <span class="glyphicon glyphicon-phone" aria-hidden="true"></span></div>
+      <input type="text" class="form-control" id="" name="lianxi" placeholder="微信/手机/邮箱">
+    </div>
+  </div>	
+  <div class="form-group">
+    <div id="yanzhen"></div>
+    <div class="input-group">
+    <span class="input-group-addon">
+        验证码
+    </span>
+    <input type="text" name="yanzhen" class="form-control">
+    </div>
+  </div>
+		<div class="form-group">
+			<input  type="submit"
+			class="btn btn-block btn-primary" value="注册" />
+            </div>
+			<input type="reset" class="btn btn-block btn-default"/>
+		  
+	</form>
+
+
+<div class="img">
+	
+</div>
+	</div>
+	</div>
+	<%include footer.ejs%>
+
+	<style>
+		.row{
+			height: 620px;
+
+		}
+		form{
+			margin-top: 20px;
+		}
+		
+	</style>
+
+<script>
+	$().ready(function() {
+// 在键盘按下并释放及提交后验证提交表单
+  $("#reg-form").validate({
+    rules: {
+      name: {
+        required: true,
+        rangelength:[3,10],
+        remote:"/u/exists"
+      },
+      passwd: {
+        required: true,
+        rangelength:[5,20]
+      },
+      passwd2: {
+        required: true,
+        rangelength: [5,20],
+        equalTo: "#passwd"
+      }
+      },   
+    messages: {
+      name: {
+        required: "请输入用户名",
+        remote:"该用户名已经存在"
+
+      },
+      passwd: {
+        required: "请输入密码"
+      },
+      passwd2: {
+        required: "请输入密码",
+        equalTo: "两次密码输入不一致"
+      }
+    
+},
+        submitHandler:function(form){
+            $.ajax({
+                url: '/s/yanzhen',
+                type:'POST',
+                dataType: 'text',
+                data: {'yanzhen':$('input[name=yanzhen]').val()},
+                success:function(data){
+                    if(data=='true'){
+                        form.submit();
+                    }else{
+                        $("#yanzhen").load("/s/captcha");
+                        $('input[name=yanzhen]').val("");
+                        $("#yanzhen").parent().addClass('has-error');
+                    }
+                },
+                error:function(error){
+                    alert(error);
+                }
+            });
+
+            
+           
+            
+            
+            // form.submit();
+        },
+        errorPlacement: function(error, element) {  
+        error.insertAfter(element.parent());  
+        } 
+});
+
+$("#yanzhen").load("/s/captcha");
+$("#yanzhen").click(function(event) {
+    $(this).load("/s/captcha");
+});
+
+  
+
+
+});
+
+
+</script>
+<style type="text/css">
+
+   .yz{
+    color: red;
+
+   }
+</style>
+</body>
+</html>

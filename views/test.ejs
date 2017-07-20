@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>宣城宠物领养</title>
+       <%include js_css.ejs%>
+  </head>
+  <body>
+
+    <% include header.ejs%>
+  
+
+<div class="row">
+    <div class="container col-md-8 col-md-offset-2">
+
+	 
+    
+
+    
+  
+
+<button id="btn" type="button" class="btn btn-default">btn</button>
+     
+<a id="btn11" class="btn btn-default" href="/"> asdasdasd</a>
+    </div>
+
+</div>
+
+
+
+
+
+
+    <script type="text/javascript">
+    	$('#btn').confirm({
+    		  animation: 'top',
+    icon: 'glyphicon glyphicon-heart',
+    title: 'Confirm!',
+    content: 'Simple confirm!',
+    buttons: {
+           red: {
+            text: '确定',
+            btnClass: 'btn-red',
+            action: function(){
+            }
+        },green: {
+            text: '确定',
+            btnClass: 'btn-green',
+            action: function(){
+            }
+        },orange: {
+            text: '确定',
+            btnClass: 'btn-orange',
+            action: function(){
+            }
+        },blue: {
+            text: '确定',
+            btnClass: 'btn-blue',
+            action: function(){
+            }
+        },purple: {
+            text: '确定',
+            btnClass: 'btn-purple',
+            action: function(){
+            }
+        },dark: {
+            text: '确定',
+            btnClass: 'btn-dark',
+            action: function(){
+            }
+        },de: {
+            text: '确定',
+            action: function(){
+            }
+        }
+    }
+});
+//      Success/Green dialog  Non animated type dialog
+// orange  blue  purple  dark
+  $('#btn11').confirm({
+     animation: 'top',
+    title: '阿达!',
+    content: 'Simple confirm!',
+    buttons: {
+           confirm: {
+            text: '确定',
+            btnClass: 'btn-red',
+            action: function(){
+            	location.href = this.$target.attr('href');
+            }
+        },cancel: {
+            text: '确定',
+            btnClass: 'btn-green',
+            action: function(){
+            	
+            }
+        }
+    }
+})
+
+
+
+
+    </script>
+    <style type="text/css">
+    
+    </style>
+    <%include footer.ejs%>
+  </body>
+</html>

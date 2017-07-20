@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>宣城宠物领养</title>
+      
+      <%include js_css.ejs%>
+     <!-- 富文本编辑器 -->
+  <link rel="stylesheet" type="text/css" href="/summernote-0.8.4/summernote.css">
+  <script src="/summernote-0.8.4/summernote.min.js"></script>
+  <!-- 富文本编辑器引入中文提示 -->
+  <script src="/summernote-0.8.4/lang/summernote-zh-CN.js"></script>
+  </head>
+  <body>
+
+    <% include header.ejs%>
+  <div class="container-fluid header_doc">
+    <div class="container">
+      <h4>single</h4>
+      <p></p>
+    </div>
+    </div>
+
+
+    <div class="container content">
+
+  
+
+
+    <div class="row">
+      <div class="col-md-9">
+       <div class="row">
+      <article data-id=<%=article._id%> >
+        <h3><%=article.title%></h3>
+        <div class="meta">
+          作者:<%=article.author_name%> <br>
+          时间:<%=article.date.toLocaleString().substring(0,15)%> <br>
+          人气:<%=article.viewcount%> <br>
+        </div>
+        <content>
+        <p><%=article.body%>
+        </p></content>
+
+        <% if(article.images){ for(let i of article.images) {%>
+        <img src="/images/<%=i%>" alt="图片">
+        <% }} %>
+      </article>
+      <div class="comments" id="comments">
+      
+    </div>
+
+    <div class="">
+      <div id="summernote"></div>
+      <button id="send" class="btn btn-primary btn-block">回复</button>
+    </div>
+      <!-- comments -->
+    </div>
+      </div>
+      <div class="col-md-3 ">
+       
+      </div>
+
+
+    </div> <!--  row -->
+    </div> <!-- content -->
+
+    <script>
+    $(function(){
+      var id=$('article').data('id');
+      $('#comments').load('/article/single/'+id+'/1');
+    })
+
+
+
+      $(function(){
+       $('#summernote').summernote({
+        height: 100,                 // set editor height
+        minHeight: null,             // set minimum height of editor
+        maxHeight: null,             // 
+        lang: 'zh-CN',
+        toolbar:[
+        ['color',['color']],
+        ['style',['bold','italic','underline']],
+        ['para',['ul','ol']]
+        
+        ]
+       });
+     });
+
+      $('#send').click(function(){
+        var markupStr = $('#summernote').summernote('code');
+        if($.trim(markupStr).length<=0){
+          alert('没有内容');
+          return;
+        }
+        var data={
+          aid:$('article').data('id'),
+          body:markupStr
+        }
+        $.ajax({
+          url: '/article/addc',
+          type:'POST',
+          dataType:'text',
+          data: data,
+          success:function(data){
+            if(data){
+              window.location.reload();
+            }
+          },
+          error:function(e){
+          }
+        })
+        
+        
+      })
+    </script>
+    <style type="text/css">
+    article p{
+      text-indent: 2em;
+      word-wrap: break-word;
+      font-size: 18px;
+    }
+    article{
+      padding: 0 10px;
+    }
+      .comment{
+        position: relative;
+        top: 0px;
+        left: 0px;
+        margin:5px 0;
+        padding: 5px 0px;
+        border: 1px dashed #eee;
+      }
+      .comment p{
+        padding-left:5px; 
+        text-indent: 2em;
+        width: 80%;
+        word-wrap: break-word;
+       
+      }
+      .comment .meta{
+        position: absolute;
+       
+        right: 0px;
+        bottom: 0px ;
+       opacity: 0.5;
+
+      }
+    </style>
+    <%include footer.ejs%>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+
+<% let total=meta.total;
+   let num=meta.num;
+   let pages=Math.ceil(total/num);
+   let page=meta.page;
+ 
+    var pre_class='';
+    var next_class='';
+    
+    if(page==1){
+      pre_class='disabled';
+    }
+    if(page==pages){
+      next_class='disabled';
+    }
+%>
+
+<div id='page-meta' data-page="<%=page%>"></div>
+ <% for(let comment of comments){ 
+ %>
+<div class="comment">
+<p> <%-comment.body%></p>
+<div class="meta">
+  <span type="button" class="btn btn-xs ">
+  <span class="glyphicon glyphicon-user"></span> <%=comment.author_name%>
+</span>
+<span type="button" class="btn btn-xs ">
+  <span class="glyphicon glyphicon-time"></span> <%=comment.date.toLocaleString().substring(5,15)%>
+</span>
+</div> 
+</div>
+<% }  %>
+
+<% if(pages>=2) { %>
+<nav aria-label="Page navigation" class="fenye">
+  <ul class="pagination">
+    <li class="<%=pre_class%>">
+      <a href="#"  id="pre" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+<% for(let i=1;i<=pages;i++){
+   var c='';
+if(page==i)
+      c='active'; 
+%>
+    <li class='<%=c%>' ><a href="#" id="pnum"><%=i%></a></li>
+<% } %>
+
+<li class="<%=next_class%>">
+      <a href="#"  id="next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<% } %>
+<script type="text/javascript">
+$(function(){
+  var page=$('#page-meta').data('page');
+  $('#pre,#pnum,#next').click(function(event) {
+    if($(this).parent().attr('class')=='disabled')
+      return;
+    var str=this.id;
+    var npage;
+    switch(str){
+      case 'pre':npage=page-1; break;
+      case 'pnum':npage=$(this).text();break;
+      case 'next':npage=page+1; break;
+    };
+    var id=$('article').data('id');
+    $.ajax({
+      url: '/article/single/'+id+'/'+npage,
+      type: 'get',
+      dataType: 'html',
+      data: {},
+      success:function(data){
+        $('#comments').html(data);
+      }
+    })
+    
+  });
+})
+
+</script>
+
+<style type="text/css">
+         
+
+
+</style>
