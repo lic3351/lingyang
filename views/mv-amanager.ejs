@@ -1,0 +1,29 @@
+<div id='list_meta' data-total="<%=total%>" data-limit="<%=limit%>"></div>
+    <table class="table col-xs-12"> 
+    <% for(let article of rows) {%>
+      <tr data-id='<%=article._id%>'>
+        <td >【<%=article.type%>】
+        <a href='/article/single/<%=article._id%>'><%=article.title.substring(0,15)%></a>
+        
+        </td>
+        
+        <td>
+          <span type="button" class="btn btn-xs">
+          <span class="glyphicon glyphicon-eye-open"></span> <%=article.viewcount%>
+        </span>
+        
+        <span type="button" class="btn btn-xs">
+          <span class="glyphicon glyphicon-comment"></span> <%=article.comments.length%>
+        </span>
+        </td>
+        <td data-status='<%=article.status%>'><%=article.date.toLocaleString().substring(0,9)%></td>
+        <td> 
+        <div class="btn-group">      
+          <a href="/article/jie/<%=article._id%>" class="jie btn btn-xs btn-primary">结帖</a>   
+          <a href="/article/del/<%=article._id%>" class="del btn btn-xs btn-danger">删除</a>
+          </div>
+        </td>
+
+      </tr>
+     <% } %>      
+    </table> 

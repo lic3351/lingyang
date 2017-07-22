@@ -1,36 +1,39 @@
-
-    <table class="table col-xs-12">
-    <% for(let article of list) {%>
-      <tr data-id='<%=article._id%>'>
-        <td >【<%=article.type%>】
-        <a href='/article/single/<%=article._id%>'><%=article.title.substring(0,15)%></a>
-        
-        </td>
-        
-        <td>
-          <span type="button" class="btn btn-xs">
-          <span class="glyphicon glyphicon-eye-open"></span> <%=article.viewcount%>
-        </span>
-        
-        <span type="button" class="btn btn-xs">
-          <span class="glyphicon glyphicon-comment"></span> <%=article.comments.length%>
-        </span>
-        </td>
-        <td data-status='<%=article.status%>'><%=article.date.toLocaleString().substring(0,9)%></td>
-        <td> 
-        <div class="btn-group">      
-          <a href="/article/jie/<%=article._id%>" class="jie btn btn-xs btn-primary">结帖</a>   
-          <a href="/article/del/<%=article._id%>" class="del btn btn-xs btn-danger">删除</a>
-          </div>
-        </td>
-
-      </tr>
-     <% } %>      
-    </table>  
+<div id="alist"></div>
+ <ul class="pagination" id="pagination2"></ul>
 <script type="text/javascript">
   $(function(){
     
-    
+    var total;
+     var limit;
+    $(function(){
+       $('#alist').load('/article/manager',null,function(){
+         total=$('#list_meta').data("total");
+        limit=$('#list_meta').data('limit');
+        $.jqPaginator('#pagination2', {
+        totalPages: Math.ceil(total/limit),
+        visiblePages: 7,
+        currentPage: 1,
+        pageSize:limit,
+        prev: '<li class="prev"><a href="javascript:;">&laquo;</a></li>',
+        next: '<li class="next"><a href="javascript:;">&raquo;</a></li>',
+        page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+        onPageChange: function (num, type) {
+            $.ajax({
+              url: '/article/manager',
+              type: 'get',
+              dataType:'html',
+              data: {page: num,date:Date.now()},
+              success:function(data){
+                $('#alist').html(data);
+              },
+              error:function(err){
+              }
+            });       
+        }
+    });
+       });
+    })
+
 
    $('.del').confirm({
     animation: 'top',

@@ -146,14 +146,17 @@ router.post('/addc', function(req, res, next) {
 
 })
 router.get('/manager', function(req, res, next) {
-    var skip = req.body.skip || 0;
-    var limit = req.body.limit || 6;
+    var limit =6|| config.page.limit;
+    var page=req.query.page || 1;
+    var skip=(page-1)*limit;
     var uid=req.session.user.id;
     var conditions={author_id:uid};
+    console.log(uid);
     (async function() {
         try {
             let docs = await aService.findAll(limit, skip,conditions);
-            res.render('amanager', { list: docs });
+            let total= await aService.count('article',conditions);     
+            res.render('mv-amanager', { total:total,limit:limit,rows:docs});
 
         } catch (e) {
             console.log('cuowu')
@@ -161,6 +164,10 @@ router.get('/manager', function(req, res, next) {
     }());  
 });
 
+
+router.get('/formanager',function(req,res,next){
+    res.render('amanager');
+})
 router.get('/del/:aid', function(req, res, next) {
     var aid = req.params.aid;
 
