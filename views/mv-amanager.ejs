@@ -27,3 +27,48 @@
       </tr>
      <% } %>      
     </table> 
+
+    <script type="text/javascript">
+      
+    
+  $(function(){
+   $('.del').confirm({
+    animation: 'top',
+    title: '删除',
+    content: '确定要删除该帖子吗？',
+    buttons: {
+           sure: {
+            text: '确定',
+            btnClass: 'btn-red',
+            action: function(){
+              location.href = this.$target.attr('href');
+            } 
+          }, cancel: {
+            text: '取消',
+            action: function(){
+            } 
+          }
+      }
+    });
+
+ $('.jie').confirm({
+    animation: 'top',
+    title: '结帖',
+    content: '结帖：是表明该帖信息失效。',
+    buttons: {
+           sure: {
+            text: '确定',
+            btnClass: 'btn-red',
+            action: function(){
+              location.href = this.$target.attr('href');
+            } 
+          }, cancel: {
+            text: '取消',
+            action: function(){
+            } 
+          }
+      }
+    });
+
+  })
+    </script>

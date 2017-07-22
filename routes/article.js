@@ -151,7 +151,6 @@ router.get('/manager', function(req, res, next) {
     var skip=(page-1)*limit;
     var uid=req.session.user.id;
     var conditions={author_id:uid};
-    console.log(uid);
     (async function() {
         try {
             let docs = await aService.findAll(limit, skip,conditions);
