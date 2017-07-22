@@ -4,7 +4,7 @@
     <title>宣城宠物领养</title>
       
       <%include js_css.ejs%>
-     
+    
   </head>
   <body>
 
@@ -34,9 +34,13 @@
 
     <div class="row">
       <div class="col-md-9">
-      最近领养信息<br>
           <div class="row">
-                     
+    
+<div class="panel panel-info">
+  <!-- Default panel contents -->
+  <div class="panel-heading">最近领养</div>
+  <div class="panel-body">
+
 <div class="col-md-3 col-xs-6 margin0">
               <div class="zhanshi">
                 <img src="/images/cat.jpg" alt="...">               
@@ -50,51 +54,28 @@
               </div>
             </div>
 
-<div class="col-md-3 col-xs-6 margin0">
-              <div class="zhanshi">
-                <img src="/images/cat.jpg" alt="...">
-                                
-                  <p>宠物被领养寥少宠物被领被领养少领</p>
-                  <div class="meta"> 
-                    <span type="button" class="btn btn-xs">
-                      <span class="glyphicon glyphicon-eye-open"></span> 112
-                    </span>
-                    </div>
-              
-              </div>
-            </div>
-        </div> <!-- div row -->
+  </div> <!-- panel-body -->
+</div> <!-- panel   -->
+</div> <!-- div row -->
 <!-- 爬虫信息 -->
-<hr>
 <div class="row">
-爬虫信息
-
-<table class="table table-striped">
-  <tr>
-    <td>img</td>
-    <td>title</td>
-    <td>mata</td>
-  </tr>
-   <tr>
-    <td>img</td>
-    <td>title</td>
-    <td>mata</td>
-  </tr> 
-  <tr>
-    <td>img</td>
-    <td>title</td>
-    <td>mata</td>
-  </tr> 
-  <tr>
-    <td>img</td>
-    <td>title</td>
-    <td>mata</td>
-  </tr>
-</table>
-
-
+<div class="panel panel-info">
+  <!-- Default panel contents -->
+  <div class="panel-heading">数据来源(宣城论坛)</div>
+  <div class="panel-body">
+<div id="outlist">
 </div>
+</div>
+
+ <div class="panel-footer">
+ <ul class="pagination" id="pagination2"></ul>
+ </div>
+
+ </div> 
+</div>
+
 <!-- 爬虫信息end -->
+    
 
       </div>
       <div class="col-md-3 ">
@@ -102,8 +83,42 @@
       </div>
     </div>
     </div>
+    <script type="text/javascript">
+        var total;
+        var limit;
+    $(function(){
+       $('#outlist').load('/article/out',null,function(){
+         total=$('#out_table').data("total");
+        limit=$('#out_table').data('limit');
+        $.jqPaginator('#pagination2', {
+        totalPages: Math.ceil(total/limit),
+        visiblePages: 7,
+        currentPage: 1,
+        pageSize:limit,
+        prev: '<li class="prev"><a href="javascript:;">上一页</a></li>',
+        next: '<li class="next"><a href="javascript:;">下一页</a></li>',
+        page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+        onPageChange: function (num, type) {
+            $.ajax({
+              url: '/article/out',
+              type: 'get',
+              dataType:'html',
+              data: {page: num,date:Date.now()},
+              success:function(data){
+               // alert(data)
+                $('#outlist').html(data);
+              },
+              error:function(err){
+              }
+            });       
+        }
+    });
+       });
+    })
+   
 
-    <script>
+
+
       $(function(){
         var c=$("#tianqi");
         $.ajax({
@@ -166,6 +181,7 @@
   padding: 0 2px;
   /*border: 1px solid red;*/
 }
+
     </style>
     <%include footer.ejs%>
   </body>

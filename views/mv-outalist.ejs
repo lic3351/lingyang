@@ -1,0 +1,40 @@
+
+    <table id="out_table" class="col-xs-12 table table-striped table-condensed table-bordered" data-total="<%=total%>" data-limit="<%=limit%>">
+<% for( let item of rows) {%>
+<tr class="outarticle_list">
+			
+				
+				<th id='title' class="col-xs-8">
+				<span type="button" class="btn btn-xs">
+				  <span class="glyphicon glyphicon-comment"></span> <%=item.comments.substring(4)%>
+				</span>
+				<a name="title" href='<%=item.href%>' target='_blank'>
+				<%=item.title%></a></th>
+				
+				
+			<td class="meta2 col-xs-3">
+			<%=item.author%><br>
+			<%=item.date.toLocaleDateString()%>	
+			</td>
+			<td class="col-xs-1">
+					<span type="button" class="btn btn-xs">
+				  <span class="glyphicon glyphicon-eye-open"></span> <%=item.views.substring(4)%>
+				</span>				
+			</td>
+	
+</tr>
+	<% } %>
+</table>
+ 
+<script type="text/javascript">
+	
+</script>
+
+	
+	<style>
+		.mate2 td{
+			font-size:0.4em;
+			text-align: center;
+		}
+
+	</style>

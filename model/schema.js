@@ -31,6 +31,17 @@ var ArticleSchema = new Schema({
 
 
 
+var OutASchema = new Schema({
+    title: String,
+    body: String,
+    href: String,
+    author:String,
+    date:Date,
+    comments:String,
+    views:String
+});
+
+
 
 var UserModel;
 var ArticleModel;
@@ -39,7 +50,7 @@ init = function() {
     try {
         UserModel = db.model('User', userSchema);
         ArticleModel = db.model('Article', ArticleSchema);
-        outAModel=db.model('outArticle',ArticleSchema);
+        OutAModel=db.model('outArticle',OutASchema);
     } catch (e) {
         console.log(`Schema : ${e}`);
     }
@@ -48,4 +59,4 @@ init();
 UserModel.on('error', function(){
     console.log('UserModel error');
 });
-module.exports = {ArticleModel, UserModel,outAModel};
+module.exports = {ArticleModel, UserModel,OutAModel};

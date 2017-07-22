@@ -44,9 +44,13 @@
         <img src="/remote/images/<%=i%>" alt="图片">
         <% }} %>
       </article>
-      <div class="comments" id="comments">
-      
+
+
+      <div class="comments" id="comments">    
     </div>
+      <ul class="pagination" id="pagination2"></ul>
+
+
 
     <div class="">
       <div id="summernote"></div>
@@ -64,10 +68,42 @@
     </div> <!-- content -->
 
     <script>
+
+    var total;
+     var limit;
     $(function(){
-      var id=$('article').data('id');
-      $('#comments').load('/article/single/'+id+'/1');
-    })
+        var id=$('article').data('id');
+       $('#comments').load('/article/single/'+id+'/1',null,function(){
+         total=$('#list_meta').data("total");
+        limit=$('#list_meta').data('limit');
+        $.jqPaginator('#pagination2', {
+        totalPages: Math.ceil(total/limit),
+        visiblePages: 7,
+        currentPage: 1,
+        pageSize:limit,
+        prev: '<li class="prev"><a href="javascript:;">上一页</a></li>',
+        next: '<li class="next"><a href="javascript:;">下一页</a></li>',
+        page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+        onPageChange: function (num, type) {
+            $.ajax({
+              url: '/article/single/'+id+'/'+num,
+              type: 'get',
+              dataType:'html',
+              data: {page: num,date:Date.now()},
+              success:function(data){
+               // alert(data)
+                $('#comments').html(data);
+              },
+              error:function(err){
+              }
+            });       
+        }
+    });
+       });
+    });
+
+
+   
 
 
 
@@ -128,7 +164,7 @@
         left: 0px;
         margin:5px 0;
         padding: 5px 0px;
-        border: 1px dashed #eee;
+        border-top: 1px solid #eee;
       }
       .comment p{
         padding-left:5px; 

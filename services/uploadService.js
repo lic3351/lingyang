@@ -20,7 +20,7 @@
   };
   var putfile = function(buffer, remoteFileName) {
       var p = new Promise(function(resolve, reject) {
-          Ftp.put(buffer, remoteFileName, function(hadError) {
+          Ftp.put(buffer, 'remote/images/'+remoteFileName, function(hadError) {
               if (!hadError) {
                   console.log(remoteFileName);
                   resolve("ok");

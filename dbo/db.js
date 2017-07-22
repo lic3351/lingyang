@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var db;
 init = function() {
     try {
+    	 mongoose.Promise = global.Promise;
         db = mongoose.createConnection(dbconf.host, dbconf.data);
         db.on('error', function() {
             console.error.bind(console, '连接错误');

@@ -40,11 +40,19 @@
 		</div>
 
 	<!-- end 搜索菜单 	 -->
+<div class="panel panel-info">
+  <!-- Default panel contents -->
+  <div class="panel-heading">。。。</div>
+  <div class="panel-body">
+<div id="alist">
+</div>
+</div>
 
-	<%include mv-alist.ejs%>
+ <div class="panel-footer">
+ <ul class="pagination" id="pagination2"></ul>
+ </div>
 
-	<div class="col-xs-12 btn btn-block btn-info" id="getmore"
-	data-page=<%=limit%> >更多</div>
+ </div> 
 
 </div>
 
@@ -60,37 +68,38 @@
 	<%include footer.ejs%>
 
 	<script type="text/javascript">
-	var skip;
-	var limit;
-	$(function(){
-		skip=$('#getmore').data('page');
-		limit=skip;	
-	});
-		$('#getmore').click(function(){
-			var data={
-				skip:skip,
-				limit:limit
-			};
-			$.ajax({
-				url:'/article/more',
-				type:'post',
-				dataType: 'html',
-				data:data,
-				success:function(data){
-					if(data.length==0){
-						$('#getmore').fadeOut('slow');
-						}else{
-					$(data).insertBefore($('#getmore'));
-					skip+=limit;
-				}
-				},
-				error:function(error){
-					
-				}
-			})
-			
-			
-		})
+	 var total;
+     var limit;
+    $(function(){
+       $('#alist').load('/article/alist',null,function(){
+         total=$('#list_meta').data("total");
+        limit=$('#list_meta').data('limit');
+        $.jqPaginator('#pagination2', {
+        totalPages: Math.ceil(total/limit),
+        visiblePages: 7,
+        currentPage: 1,
+        pageSize:limit,
+        prev: '<li class="prev"><a href="javascript:;">上一页</a></li>',
+        next: '<li class="next"><a href="javascript:;">下一页</a></li>',
+        page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+        onPageChange: function (num, type) {
+            $.ajax({
+              url: '/article/alist',
+              type: 'get',
+              dataType:'html',
+              data: {page: num,date:Date.now()},
+              success:function(data){
+               // alert(data)
+                $('#alist').html(data);
+              },
+              error:function(err){
+              }
+            });       
+        }
+    });
+       });
+    })
+   
 	</script>
 </body>
 </html>

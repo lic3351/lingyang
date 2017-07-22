@@ -27,16 +27,35 @@ router.get('/forum', function(req, res, next) {
     }());
 });
 
-router.post('/more', function(req, res, next) {
-    var skip = req.body.skip;
-    var limit = req.body.limit;
+router.get('/out', function(req, res, next) {
+    var limit =10|| config.page.limit;
+    var page = req.query.page || 1;
+    var skip=(page-1)*limit;
     (async function() {
         try {
-            let docs = await aService.findAll(limit, skip);
-            res.render('../views/mv-alist.ejs', { list: docs });
-
+            let docs = await aService.outfindAll(limit,skip);
+            let total=await aService.count('outarticle',{});
+            res.render('mv-outalist', { total:total,limit:limit,rows:docs});
         } catch (e) {
-            console.log('cuowu')
+
+        }
+    }());
+});
+
+
+
+
+router.get('/alist', function(req, res, next) {
+    var limit =6|| config.page.limit;
+    var page = req.query.page || 1;
+    var skip=(page-1)*limit;
+    (async function() {
+        try {
+            let docs = await aService.findAll(limit,skip);
+            let total=await aService.count('article',{});
+            res.render('mv-alist', { total:total,limit:limit,rows:docs});
+        } catch (e) {
+
         }
     }());
 })
@@ -86,22 +105,18 @@ router.get('/single/:id', function(req, res, next) {
 });
 router.get('/single/:id/:page',function(req,res,next){
     var id = req.params.id;
-    var page=req.params.page;
-    var num=5;
+    var limit =10|| config.page.limit;
+    var page=req.params.page || 1;
+    var skip=(page-1)*limit;
     (async function() {
         try {
             let doc = await aService.findById(id);
             if (doc) {
-                var start=(page-1)*num;
-                var end=start+num;
+                var end=skip+limit;
                 let doc = await aService.findById(id);
-                var list=doc[0].comments.slice(start,end);
-                var meta={
-                    page:page,
-                    total:doc[0].comments.length,
-                    num:num
-                };
-                res.render('mv-comments',{comments:list,meta:meta});
+                var list=doc[0].comments.slice(skip,end);
+                var total=doc[0].comments.length;
+                res.render('mv-comments',{rows:list,total:total,limit:limit});
             }
         } catch (e) {
             console.log(e);
