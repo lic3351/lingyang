@@ -1,65 +1,62 @@
 
-
-
-<div class="modal fade" tabindex="-1" role="dialog" id="forlogin">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>login</title>
+  <%include js_css.ejs%>
+</head>
+<body class="container col-md-10 col-md-offset-1">
+ 
+<div class="loginm container col-md-4 col-md-offset-4">
         
-        <form action="/u/login" method="post" id="lg">
-		<fieldset>
-			<legend>登录</legend>
-
-	<div class="form-group">
+  <form action="/u/login" method="post" id="lg">
+    <fieldset>
+      <legend>登录</legend>
+  <%if(typeof (message)!='undefined') {%>
+  <div class="alert alert-danger" role="alert">
+    <%=message%>
+  </div>
+      
+  <%}%>
+  <div class="form-group">
     <div class="input-group">
       <div class="input-group-addon">
       <span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
       <input type="text" class="form-control" id="" name="name" placeholder="用户名" autofocus="true">
     </div>
   </div>
-		<div class="form-group">
+    <div class="form-group">
     <div class="input-group">
       <div class="input-group-addon">
       <span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
       <input type="password" class="form-control" id="passwd" name="passwd"  placeholder="密码">
     </div>
   </div>
-			
-		</fieldset>
-	</form>
+      
+    </fieldset>
+  
+     <div class="form-group">
+      <button  id="lg" class="submit btn btn-block btn-primary">登录</button>
+        <a class="btn btn-ms btn-default btn-block" href="/">返回首页</a>
       </div>
-      <div class="modal-footer">
-      <button  id="lg" class="btn btn-block btn-primary">登录</button>
-        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">关闭</button>
-        
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+  </form>      
+  </div>  
 <script>
-	$('button#lg').click(function(event) {
-		var data=$('form#lg').serialize();
-		$.ajax({
-			url: '/u/login',
-			type: 'POST',
-			dataType:'json',
-			data:data,
-			success:function(rs){
-				if(rs.success=='ok'){
-					 $('#forlogin').modal('hide');
-					 window.location.reload();
+  $('button#lg').click(function(event) {
+    var data=$('form#lg').serialize();
+     $('form#lg').submit();
+    
+  });
 
-				}else{
-					$('.modal-title').text(rs.error).css("color","red");
-				}
-			}
-		});
-		
-	});
-
-</script>
+</script> 
+<style type="text/css">
+  body{
+        background-color: #fff;
+  }
+  .loginm{
+    margin-top: 10%;
+  }
+</style>
+</body>
+</html>

@@ -18,8 +18,10 @@
         </td>
         <td data-status='<%=article.status%>'><%=article.date.toLocaleString().substring(0,9)%></td>
         <td> 
-        <div class="btn-group">      
+        <div class="btn-group">   
+          <% if (article.status!=1) {%>   
           <a href="/article/jie/<%=article._id%>" class="jie btn btn-xs btn-primary">结帖</a>   
+          <% } %>
           <a href="/article/del/<%=article._id%>" class="del btn btn-xs btn-danger">删除</a>
           </div>
         </td>

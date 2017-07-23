@@ -1,0 +1,14 @@
+
+<div id='list_meta' data-total="<%=total%>" data-limit="<%=limit%>"></div>
+ <% for(let article of rows){ 
+ %>
+<div class="zhanshi">
+    <img src="/remote/images/<%=article.images[0]%>" alt="...">
+    <p><%=article.title%></p>
+    <div class="meta">
+        <span type="button" class="btn btn-xs">
+             <span class="glyphicon glyphicon-eye-open"></span> <%=article.viewcount%>
+        </span>
+    </div>
+</div>
+<% } %>

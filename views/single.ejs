@@ -23,13 +23,10 @@
 
     <div class="container content">
 
-  
-
-
     <div class="row">
       <div class="col-md-9">
        <div class="row">
-      <article data-id=<%=article._id%> >
+      <article data-id="<%=article._id%>" >
         <h3><%=article.title%></h3>
         <div class="meta">
           作者:<%=article.author_name%> <br>
@@ -41,23 +38,29 @@
         </p></content>
 
         <% if(article.images){ for(let i of article.images) {%>
-        <img src="/remote/images/<%=i%>" alt="图片">
+        <img class="tieziimg col-xs-6" src="/remote/images/<%=i%>" alt="图片">
         <% }} %>
       </article>
-
+</div>
 
       <div class="comments" id="comments">    
     </div>
+
       <ul class="pagination" id="pagination2"></ul>
 
 
 
     <div class="">
+
       <div id="summernote"></div>
+      <%if(session.user){%>
       <button id="send" class="btn btn-primary btn-block">回复</button>
+      <%} else {%>
+      
+      <% }%>
     </div>
       <!-- comments -->
-    </div>
+    
       </div>
       <div class="col-md-3 ">
        
@@ -180,6 +183,9 @@
         bottom: 0px ;
        opacity: 0.5;
 
+      }
+      .tieziimg{
+        float:left;
       }
     </style>
     <%include footer.ejs%>

@@ -17,6 +17,23 @@ var save = function(article) {
     return p;
 }
 
+
+var outsave = function(article) {
+    var p = new Promise(function(resolve, reject) {
+        try {
+            var a = new OutAModel(article);
+            a.save(function(err, rs, num) {
+                // console.log(err,rs,num);
+                if (err || num != 1) reject(err);
+                resolve('ok');
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+    return p;
+}
+
 var findAll = function(limit = 6, skip = 0, conditions) {
     var p = new Promise(function(resolve, reject) {
         try {
@@ -130,5 +147,5 @@ module.exports = {
     findById,
     update,
     del,
-    count
+    count,outsave
 }

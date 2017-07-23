@@ -16,6 +16,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/forum', function(req, res, next) {
+    
     var limit = config.page.limit;
     (async function() {
         try {
@@ -43,25 +44,59 @@ router.get('/out', function(req, res, next) {
 });
 
 
+router.get('/zhanshi', function(req, res, next) {
+    var limit =4|| config.page.limit;
+    var page = req.query.page || 1;
+    var skip=(page-1)*limit;
+    var conditions={$where:'this.images!=null'};  
+    (async function() {
+        try {
+            let docs = await aService.findAll(limit,skip,conditions);
+            let total=await aService.count('article',conditions);
+            res.render('mv-listimg', { total:total,limit:limit,rows:docs});
+        } catch (e) {
+            return e;
+        }
+    }());
+});
+
 
 
 router.get('/alist', function(req, res, next) {
+
+    var searchtype= req.query.searchtype || "全部" ;    
     var limit =6|| config.page.limit;
     var page = req.query.page || 1;
     var skip=(page-1)*limit;
+    var conditions={};
+    if(searchtype!='全部'){
+        conditions={type:searchtype};
+    }
+    // else if(searchtype=='猫'){
+    //  conditions={type:"猫"};
+    // }else if(searchtype=="狗"){
+    //     conditions={type:"狗"};
+    // }
+    // else{
+    //     conditions={type:searchtype};
+    // }
     (async function() {
         try {
-            let docs = await aService.findAll(limit,skip);
-            let total=await aService.count('article',{});
+            let docs = await aService.findAll(limit,skip,conditions);
+            let total=await aService.count('article',conditions);
             res.render('mv-alist', { total:total,limit:limit,rows:docs});
         } catch (e) {
-
+            return e;
         }
     }());
 })
 
 
 router.post('/publish', upload.array('files', 6), function(req, res, next) {
+    if (!req.session.user) {
+        res.redirect('login');
+    } 
+
     var files = req.files;
     var p = req.body;
     var article = {
@@ -126,6 +161,9 @@ router.get('/single/:id/:page',function(req,res,next){
 
 
 router.post('/addc', function(req, res, next) {
+    if (!req.session.user) {
+        res.send({msg:'请登录后在留言！'});
+    } 
     var aid = req.body.aid;
     var comment = {
         body: req.body.body,
@@ -166,6 +204,7 @@ router.get('/manager', function(req, res, next) {
 
 router.get('/formanager',function(req,res,next){
     res.render('amanager');
+    res.end();
 })
 router.get('/del/:aid', function(req, res, next) {
     var aid = req.params.aid;

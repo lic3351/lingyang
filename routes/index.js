@@ -10,6 +10,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/publish',function(req,res,next){
+	if (!req.session.user) {
+        res.redirect('/u/login');
+    } 
   res.render('publish');
 });
 router.get('/formv',function(req,res,next){

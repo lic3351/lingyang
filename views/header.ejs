@@ -19,12 +19,15 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="/">首页 <span class="sr-only">(current)</span></a></li>
-        <li><a href="/article/forum">论坛</a></li>
+        <li><a href="/article/forum">领养交流</a></li>
+        <li> <a  class="btn btn-default btn-md" href="/publish" style="">
+        <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: #FF0033"></span> 发布信息
+      </a></li>
       </ul>
-
+     
       <ul class="nav navbar-nav navbar-right">
      <% if(!session.user){ %>
-        <li><a href="javascript:renderlogin()">登录</a></li>
+        <li><a href="/u/login">登录</a></li>
         <li><a href="/u/reg">注册</a></li>  
       <% } else{%> 
 
@@ -50,22 +53,22 @@
 </header>
 <div id="lg"></div>
 <script>
-  function renderlogin(){
-    $.ajax({
-      url: '/u/login',
-      type: 'get',
-      dataType: 'html',
-      success:function(data){
-        $('div#lg').html(data);
-        $('#forlogin').modal();
-      },
-      error:function(error){
+  // function renderlogin(){
+  //   $.ajax({
+  //     url: '/u/login',
+  //     type: 'get',
+  //     dataType: 'html',
+  //     success:function(data){
+  //       $('div#lg').html(data);
+  //       $('#forlogin').modal();
+  //     },
+  //     error:function(error){
 
-      }
-    });
+  //     }
+  //   });
     
     
-  }
+  // }
 
 
 </script>

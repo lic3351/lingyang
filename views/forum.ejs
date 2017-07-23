@@ -26,23 +26,26 @@
 
 	
 
-		<div class="mynav1">
-			<ul>
-				<li><a href="#">时间排序</a></li>
-				<li><a href="#">热度排序</a></li>
-			</ul>
-			<select name="searchtype">
-				<option value="全部">全部</option>
-				   <option value="猫">猫星人</option>
-				<option value="狗">汪星人</option>
-				<option value="其他">其他星球</option>
-			</select>
-		</div>
+	
 
 	<!-- end 搜索菜单 	 -->
 <div class="panel panel-info">
   <!-- Default panel contents -->
-  <div class="panel-heading">。。。</div>
+  <div class="panel-heading">
+ <div class="form-inline">
+   <div class="input-group">
+    <div class="input-group-addon">类型</div>
+      <select  id="searchtype" name="searchtype" class="form-control">
+        <option value="全部">全部</option>
+        <option value="猫">猫</option>
+        <option value="狗">狗</option>
+        <option value="其他">其他</option>
+      </select>
+   </div>
+ </div>
+
+   
+  </div>
   <div class="panel-body">
 <div id="alist">
 </div>
@@ -68,9 +71,10 @@
 	<%include footer.ejs%>
 
 	<script type="text/javascript">
+ function init(vvv){
 	 var total;
-     var limit;
-    $(function(){
+   var limit;
+   var stype=vvv;
        $('#alist').load('/article/alist',null,function(){
          total=$('#list_meta').data("total");
         limit=$('#list_meta').data('limit');
@@ -87,7 +91,7 @@
               url: '/article/alist',
               type: 'get',
               dataType:'html',
-              data: {page: num,date:Date.now()},
+              data: {page: num,searchtype:stype,date:Date.now()},
               success:function(data){
                // alert(data)
                 $('#alist').html(data);
@@ -98,8 +102,19 @@
         }
     });
        });
-    })
-   
+    
+ };  
+$(function(){
+  init("全部");
+  $('#searchtype').change(function(event) {
+    var vvv=$(this).val();
+
+    init(vvv);
+  });
+})
 	</script>
+<style type="text/css">
+
+</style>
 </body>
 </html>

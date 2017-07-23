@@ -11,6 +11,7 @@ router.get('/login', function(req, res, next) {
     res.render('login');
 });
 router.post('/login', function(req, res, next) {
+
     var user = {
         name: req.body.name,
         passwd: req.body.passwd
@@ -25,9 +26,10 @@ router.post('/login', function(req, res, next) {
                 uname: v.uname || ''
             };
 
-            res.json({ success: 'ok' });
+            // res.json({ success: 'ok' });
+            res.redirect('/');
         } else {
-            res.json({ error: '用户名或密码错误' });
+            res.render('login',{message:"用户名或密码错误"});
         }
     });
 });

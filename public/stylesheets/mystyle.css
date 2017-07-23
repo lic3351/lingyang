@@ -79,43 +79,7 @@
      /*color: #666633;*/
  }
 
- /*帖子列表 end*/
- /*帖子导航*/
-
- .mynav1 li {
-     display: inline;
-     padding-right: 5px;
-     margin-right: 5px;
-     border-right: 1px solid #eee;
- }
-
- .mynav1 ul {
-     float: right;
-     list-style-type: none;
-     margin: 0;
-     padding: 0;
- }
-
- .mynav1 {
-     overflow: hidden;
-     margin: 0;
-     padding: 0;
-     font-size: 12px;
-     line-height: 24px;
-     font-weight: 600;
-     color: #555;
-     border-bottom: 1px solid #eee;
-     color: #555;
- }
-
- .mynav1 select {
-     float: right;
-     height: 24px;
-     margin-right: 10px;
-     border: 0;
-     color: #666699;
-     background: #CCFF99;
- }
+ 
 
  .gonggao {
      max-height: 180px;

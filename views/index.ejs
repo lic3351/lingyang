@@ -11,14 +11,9 @@
     <%include header.ejs%>
   <div class="container-fluid header_doc">
     <div class="container">
-      <h4>领养代替购买</h4>
+      <h2>领养代替购买</h2>
       <p>
-      <a  class="btn btn-default btn-sm btn-xs" href="/article/forum">
-        <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: #FF0033"></span> 领养
-      </a>
-      <a  class="btn btn-default btn-sm btn-xs" href="/publish" style="">
-        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" style="color: #99CC00"></span> 发布信息
-      </a>
+      ...
       
       </p>
 
@@ -42,17 +37,9 @@
   <div class="panel-body">
 
 <div class="col-md-3 col-xs-6 margin0">
-              <div class="zhanshi">
-                <img src="/images/cat.jpg" alt="...">               
-                  <p>宠物被领养寥少宠物被领被领养少领</p>
-                  <div class="meta"> 
-                    <span type="button" class="btn btn-xs">
-                      <span class="glyphicon glyphicon-eye-open"></span> 112
-                    </span>
-                    </div>
-                
-              </div>
-            </div>
+
+              
+</div>
 
   </div> <!-- panel-body -->
 </div> <!-- panel   -->
@@ -84,6 +71,12 @@
     </div>
     </div>
     <script type="text/javascript">
+$(function(){
+  $('.margin0').load('/article/zhanshi');
+})
+
+
+
         var total;
         var limit;
     $(function(){

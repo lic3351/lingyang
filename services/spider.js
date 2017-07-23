@@ -4,6 +4,7 @@ var iconv = require('iconv-lite');
 var BufferHelper = require('bufferhelper');
 var fs = require('fs');
 var OutAModel = require('../model/schema').OutAModel;
+var aService = require('../services/articleService');
 var options = {
     "url": 'http://www.xuancheng.org/forum-268-1.html'
 };
@@ -120,7 +121,7 @@ var main = async function(url) {
     var alist = [];
     try {
         let total_num = await getTotal(url);
-         let k=0
+        let k = 0
         for (let i = 1; i < total_num; i++) {
             let urls = `http://www.xuancheng.org/forum-268-${i}.html`;
             let as = await getPre(urls);
@@ -131,10 +132,10 @@ var main = async function(url) {
             if (day > 180)
                 break;
             // 抓取每个帖子的body部分
-           
-            for (let j = 0; j < as.length; j++,k++) {
+
+            for (let j = 0; j < as.length; j++, k++) {
                 let tempurl = as[j].href;
-                while (as[j].body==null) {
+                while (as[j].body == null) {
                     let body = await getContent(tempurl);
                     as[j].body = body;
                 }
@@ -142,7 +143,7 @@ var main = async function(url) {
             }
 
 
-             await saveToDB(as);
+            await saveToDB(as);
 
         }
         console.log('ookk');
@@ -160,7 +161,7 @@ var main = async function(url) {
     }
 }
 
-main(options.url);
+// main(options.url);
 
 // var d1=new Date('2017-5-12');
 // var d2=Date.now();
@@ -195,38 +196,30 @@ var save = async function() {
     }
 }
 
-// save();
+var update = async function() {
+    let total=0;
+    for (let i = 0; i < 10; i++) {
+        let url = `http://www.xuancheng.org/forum-268-${i}.html`;
+        let alist = await getPre(url);
+        let k=alist.length;
+        for (let j = 0; j < alist.length; j++) {
+            var conditions = { href: alist[j].href };
+            let rs = await aService.count('outarticle', conditions);
+            console.log(rs);
+            if(rs<1){
+                await aService.outsave(alist[j]);
+                k--;total++;
+            }
+        }
+        if(k==alist.length) {
+            console.log(`在第${i}页，更新完成 ，总共插入${total}条数据`);
+            resolve('update ok') ;
+        }
+    }
+    console.log(`在第${i}页，更新完成 ，总共插入${total}条数据`);
+    resolve('ok');
+}
 
-// function timeend1() {
-//     var p = new Promise(function(resolve, reject) {
-//         setTimeout(()=>resolve('timeend1'), 3000);
-//     });
-//     return p;
-// }
-
-// function timeend2() {
-//     var p = new Promise(function(resolve, reject) {
-//         setTimeout(()=>reject(new Error('timeend2')), 2000);
-//     });
-//     return p;
-// }
-//  async function ttt() {
-//     var flag = true;
-//     while (flag) {
-//         console.log('---');
-//          await Promise.race([timeend1, timeend2]).then(function(rs) {
-//             console.log(rs);
-
-//         }).catch(function(e){
-//             flag=false;
-//         });
-//     }
-// }
-
-// ttt();
-
-// var schedule = require('node-schedule');
-
-// var j = schedule.scheduleJob('5 * * * * *', function(){
-//   console.log('The answer to life, the universe, and everything!');
-// });
+module.exports={
+    update
+}
