@@ -58,7 +58,7 @@ router.post('/reg', function(req, res, next) {
         lianxi: req.body.lianxi
     };
     uService.save(u).then(function(val) {
-        req.session.user = u.name; //这里是user  在app.js 中有
+        req.session.user = u; //这里是user  在app.js 中有
         res.render('umainpage');
     }).catch(function(e) {
         res.redirect(req.path);

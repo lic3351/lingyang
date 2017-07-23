@@ -38,7 +38,7 @@
         </p></content>
 
         <% if(article.images){ for(let i of article.images) {%>
-        <img class="tieziimg col-xs-6" src="/remote/images/<%=i%>" alt="图片">
+        <img class="tieziimg col-md-6" src="/remote/images/<%=i%>" alt="图片">
         <% }} %>
       </article>
 </div>
@@ -186,6 +186,8 @@
       }
       .tieziimg{
         float:left;
+        max-width: 250px;
+        max-height: 250px;
       }
     </style>
     <%include footer.ejs%>
